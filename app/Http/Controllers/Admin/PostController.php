@@ -50,7 +50,7 @@ class PostController extends Controller
         $newPost->content = $data['content'];
         $newPost->user_id = auth()->user()->id;
         $newPost->save();
-        dd($newPost);
+        return redirect()->route('posts.show',$newPost);
     }
 
     /**
@@ -61,7 +61,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        //show the single post,based on the id
+        $post = posts::find($id);
+        return view('show',compact('post'));
     }
 
     /**
@@ -72,7 +74,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        //edit the single post
+        $post = posts::find($id);
+        return view('edit',compact('post'));
     }
 
     /**
@@ -84,7 +88,15 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //method to update post content
+        $post = posts::find($id);
+        $data = $request->all();
+
+        $post->title = $data['title'];
+        $post->content = $data['content'];
+        $post->update();
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -96,5 +108,8 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $post = posts::find($id);
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }
