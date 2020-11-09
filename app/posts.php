@@ -8,6 +8,8 @@ class posts extends Model
 {
     //posts tabel
 
+    protected $guarded = [];
+
     public function user(){
 
         return $this->belongTo('App\User');

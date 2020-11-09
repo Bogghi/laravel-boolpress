@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+// use Illuminate\Auth;
 use Illuminate\Http\Request;
 use App\posts;
 use App\User;
@@ -41,7 +42,15 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request);
+        $data = $request->all();
+
+        $newPost = new posts;
+
+        $newPost->title = $data['title'];
+        $newPost->content = $data['content'];
+        $newPost->user_id = auth()->user()->id;
+        $newPost->save();
+        dd($newPost);
     }
 
     /**
