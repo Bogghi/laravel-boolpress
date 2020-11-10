@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Guest;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\posts;
 
-class HomeController extends Controller
+class GuestController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,7 +24,8 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        return view('admin.home');
+    {   
+        $posts = posts::all();
+        return view('guest.home',compact('posts'));
     }
 }

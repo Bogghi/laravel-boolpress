@@ -27,3 +27,8 @@ Route::prefix('admin')
         Route::resource('/posts', 'PostController');
     });
 
+Route::prefix('guest')
+    ->namespace('Guest')
+    ->group(function(){
+        Route::get('/', 'GuestController@index')->name('home');
+    });

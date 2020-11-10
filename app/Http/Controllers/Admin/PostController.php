@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-// use Illuminate\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\posts;
 use App\User;
@@ -18,8 +18,9 @@ class PostController extends Controller
     public function index()
     {
         //show all posts
-        $posts = posts::all();
-        return view('posts',compact('posts'));
+        $posts = posts::where('user_id',auth()->user()->id)->get();
+        // dd($posts);
+        return view('admin.posts',compact('posts'));
     }
 
     /**
@@ -30,7 +31,7 @@ class PostController extends Controller
     public function create()
     {
         //add a new post
-        return view('add');
+        return view('admin.add');
     }
 
     /**
@@ -62,8 +63,21 @@ class PostController extends Controller
     public function show($id)
     {
         //show the single post,based on the id
-        $post = posts::find($id);
-        return view('show',compact('post'));
+        // $post = DB::table('posts')
+        //     ->where('id',$id)
+        //     ->where('user_id',auth()->user()->id)
+        //     ->get();
+        
+        $post = DB::table('posts')
+            ->where('id',$id)
+            ->where('user_id',auth()->user()->id)
+            ->first();
+
+        if(is_null($post)){
+            return redirect()->route('posts.index');
+        }else {
+            return view('admin.show',compact('post'));
+        }
     }
 
     /**
@@ -75,8 +89,15 @@ class PostController extends Controller
     public function edit($id)
     {
         //edit the single post
-        $post = posts::find($id);
-        return view('edit',compact('post'));
+        $post = $post = DB::table('posts')
+        ->where('id',$id)
+        ->where('user_id',auth()->user()->id)
+        ->first();
+        if(is_null($post)){
+            return redirect()->route('posts.index');
+        }else {
+            return view('admin.edit',compact('post'));
+        }
     }
 
     /**
@@ -110,6 +131,6 @@ class PostController extends Controller
         //
         $post = posts::find($id);
         $post->delete();
-        return redirect()->route('posts.index');
+        return redirect()->route('admin.posts.index');
     }
 }

@@ -19,11 +19,6 @@
 
         <input type="submit" value="upate">
     </form>
-    
-    <form action="{{route('posts.destroy',$post->id)}}" method="post">
-        @method('DELETE')
-        @csrf
-        <input type="submit" value="Cancella">
-    </form>
+
 </body>
 </html>
