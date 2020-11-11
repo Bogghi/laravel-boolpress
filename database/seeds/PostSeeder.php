@@ -19,6 +19,7 @@ class PostSeeder extends Seeder
             $newPost->title = $fake->word();
             $newPost->content = $fake->sentence();
             $newPost->user_id = rand(1,2);
+            $newPost->image_path = $fake->imageUrl($with= 640, $height = 480);
             $newPost->save();
         }
     }

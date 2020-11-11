@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\posts;
 use App\User;
@@ -44,12 +45,23 @@ class PostController extends Controller
     {
         //
         $data = $request->all();
+        // dd($data);
+
+        $request->validate([
+            "title"=> "required",
+            "content"=> "required",
+            "image"=> "image"
+        ]);
+
+        $path = Storage::disk('public')->put('images', $data['image']);
+
+        // dd($path);
 
         $newPost = new posts;
-
         $newPost->title = $data['title'];
         $newPost->content = $data['content'];
         $newPost->user_id = auth()->user()->id;
+        $newPost->image_path = $path;
         $newPost->save();
         return redirect()->route('posts.show',$newPost);
     }

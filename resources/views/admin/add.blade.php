@@ -7,15 +7,25 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{route('posts.store')}}" method="POST">
+    <form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')
         <label for="title">title</label>
         <label for="content">content</label>
+        <label for="image">image</label>
+        
         <input type="text" name="title" id="title">
         <input type="text" name="content" id="content">
+        <input type="file" name="image" id="image" accept="image/*">
 
         <input type="submit" value="salva">
     </form>
+    @if ($errors->any())
+        <ul>    
+        @foreach ($errors->all() as $error)
+            <li>{{$error}}</li>    
+        @endforeach
+        </ul>
+    @endif
 </body>
 </html>

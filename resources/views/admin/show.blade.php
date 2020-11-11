@@ -11,6 +11,9 @@
         <li>{{$post->title}}</li>
         <li>{{$post->content}}</li>
         <li>{{$post->user_id}}</li>
+        <li>
+            <img src="{{ asset('storage/'.$post->image_path) }}" alt="">
+        </li>
     </ul>
 </body>
 </html>

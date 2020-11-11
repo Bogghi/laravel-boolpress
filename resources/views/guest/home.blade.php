@@ -12,6 +12,9 @@
             <li>{{$post->title}}</li>
             <li>{{$post->content}}</li>
             <li>{{$post->user_id}}</li>
+            <li>
+                <img src="{{$post->image_path}}" alt="">
+            </li>
         </ul>
     @endforeach
 </body>
