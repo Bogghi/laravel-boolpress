@@ -119,16 +119,16 @@ class PostController extends Controller
         //method to update post content
         $post = posts::find($id);
         $data = $request->all();
-        dd($data);
-        // $request->validate([
-        //     "title"=> "required",
-        //     "content"=> "required",
-        //     "image"=> "image"
-        // ]);
+        // dd($data);
+        $request->validate([
+            "title"=> "required",
+            "content"=> "required",
+            "image"=> "image"
+        ]);
 
         // dd($data);
 
-        dd(Storage::disk('public')->put('images', $data['image']));
+        // dd(Storage::disk('public')->put('images', $data['image']));
 
         $path = Storage::disk('public')->put('images', $data['image']);
 
