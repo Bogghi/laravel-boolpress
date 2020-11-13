@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\posts;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.home');
+        $posts = posts::where('user_id',auth()->user()->id)->get();
+        // dd($posts);
+        return view('admin.home',compact('posts'));
     }
 }

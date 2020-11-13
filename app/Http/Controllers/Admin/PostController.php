@@ -20,8 +20,7 @@ class PostController extends Controller
     {
         //show all posts
         $posts = posts::where('user_id',auth()->user()->id)->get();
-        // dd($posts);
-        return view('admin.posts',compact('posts'));
+        return view('admin.home',compact('posts'));
     }
 
     /**
@@ -75,10 +74,6 @@ class PostController extends Controller
     public function show($id)
     {
         //show the single post,based on the id
-        // $post = DB::table('posts')
-        //     ->where('id',$id)
-        //     ->where('user_id',auth()->user()->id)
-        //     ->get();
         
         $post = DB::table('posts')
             ->where('id',$id)
@@ -124,9 +119,23 @@ class PostController extends Controller
         //method to update post content
         $post = posts::find($id);
         $data = $request->all();
+        dd($data);
+        // $request->validate([
+        //     "title"=> "required",
+        //     "content"=> "required",
+        //     "image"=> "image"
+        // ]);
+
+        // dd($data);
+
+        dd(Storage::disk('public')->put('images', $data['image']));
+
+        $path = Storage::disk('public')->put('images', $data['image']);
+
 
         $post->title = $data['title'];
         $post->content = $data['content'];
+        $post->image_path = $path;
         $post->update();
 
         return redirect()->route('posts.index');
